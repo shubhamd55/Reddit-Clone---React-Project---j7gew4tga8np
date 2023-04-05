@@ -1,0 +1,118 @@
+*,*::before,*::after{
+    box-sizing: border-box;
+}
+body{
+    margin:0px;
+}
+/*********
+* Navbar *
+**********/
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 20px;
+    height: 70px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.loginSignupBtn{
+    background-color: #64B5F6;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 10px 15px;
+    transition: .3s ease scale;
+    cursor: pointer;
+}
+.loginSignupBtn:hover{
+    scale: 1.08;
+}
+#logo{
+    width: 150px;
+    height: auto;
+}
+/*********
+* Auth Modal *
+**********/
+
+.AuthModalContainer{
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.326);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.authCard{
+    width: 500px;
+    height: max-content;
+    background-color: white;
+    border-radius: 8px;
+    position: relative;
+}
+.authModalCloseIcon{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 30px;
+    cursor: pointer;
+}
+.form-container{
+    /* background-color: red; */
+    height: 100%;
+    border-radius: 8px;
+    padding:10px
+}
+.buttons{
+    margin-bottom: 20px;
+    width:100%;
+    display: flex;
+    align-items:center;
+    justify-content:center;
+    gap:20px
+}
+.showLoginBtn{
+    /* border: 1px solid gray; */
+    font-size: 18px;
+    padding: 5px 20px;
+    display: inline-block;
+    cursor:pointer;
+}
+.showSingupBtn{
+    cursor:pointer;
+    /* border: 1px solid gray; */
+    font-size: 18px;
+    padding: 5px 20px;
+    display: inline-block;
+}
+.showLoginBtn.active,
+.showSingupBtn.active{
+    text-decoration: underline;
+}
+.form-container form input{
+    display: block;
+    height: 40px;
+    width: 80%;
+    border-radius: 5px;
+    padding: 0px 5px;
+    font-size: 16px;
+    margin: 0px auto;
+}
+.form-container h2{
+    text-align: center;
+    margin: 5px 0px;
+}
+.form-container form label{
+    margin: 10px auto;
+    width: 80%;
+    font-size: 18px;
+    font-weight: 600;
+    display: block;
+}
+.form-container form input[type="submit"]{
+    margin: 20px auto;
+    cursor: pointer;
+    padding: 10px 15px;
+    height: max-content;
+    background-color: rgba(255, 166, 0, 0.683);
+}

@@ -1,21 +1,27 @@
 import React from 'react'
-import Profile from "./Profile"
-const Navbar = ({currentUser, setCurrentUser,users,setUsers,setPosts}) => {
+import Profile from "./Profile";
+import {createPortal} from "react-dom";
+import logo from "../assets/reddit_logo.png"
+import AuthModal from "./AuthModal";
+const Navbar = ({currentUser, setCurrentUser,users,setUsers,setPosts,showModal, setShowModal}) => {
   return (
     <nav className="navbar">
-        <img src="" alt="logo"/>
+        <img id="logo" src={logo} alt="logo"/>
         {
-            currentUser ? <Profile currentUser={currentUser}/> : <LoginSignUpBtn/>
+            currentUser ? <Profile currentUser={currentUser}/> : <LoginSignUpBtn setShowModal={setShowModal}/>
+        }
+        {
+            showModal && createPortal(<AuthModal setShowModal={setShowModal}/>, document.getElementById("portalRoot"))
         }
     </nav>
   )
 }
 
-function LoginSignUpBtn (){
+function LoginSignUpBtn ({setShowModal}){
     const handleAuth = () => {
-        return null;
+        return setShowModal(true);
     }
-    return <button onClick={handleAuth}>Login/Signup</button>
+    return <button className="loginSignupBtn" onClick={handleAuth}>Login/Signup</button>
 }
 
 export default Navbar;

@@ -6,6 +6,7 @@ const Layout = () => {
     const [posts,setPosts] = useState(null);
     const [users,setUsers] = useState([]);
     const [currentUser, setCurrentUser] = useState(null);
+    const [showModal, setShowModal] = useState(false);
     /* 
         [
             {
@@ -36,7 +37,7 @@ const Layout = () => {
   },[])
   return (
     <>
-        <Navbar {...{currentUser, setCurrentUser,users,setUsers,setPosts}}/>
+        <Navbar {...{currentUser, setCurrentUser,users,setUsers,setPosts,showModal, setShowModal}}/>
         <div className="posts-container">
         {
             posts && (
