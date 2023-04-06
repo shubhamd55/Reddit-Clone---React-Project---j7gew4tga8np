@@ -1,6 +1,8 @@
 import React,{useState, useEffect} from 'react'
 import {AiOutlineCloseCircle} from 'react-icons/ai'
-const AuthModal = ({setShowModal}) => {
+import {FcGoogle} from 'react-icons/fc';
+import {loginWithGoogle} from "./Auth";
+const AuthModal = ({setShowModal,setCurrentUser}) => {
   const [showLoginFrom, setShowLoginFrom] = useState(true)
   return (
     <div className="AuthModalContainer">
@@ -16,7 +18,7 @@ const AuthModal = ({setShowModal}) => {
                     </span>
                 </div>
                 {
-                    showLoginFrom ? <LoginFrom/> : <SignupFrom/>
+                    showLoginFrom ? <LoginFrom setShowModal={setShowModal} setCurrentUser={setCurrentUser}/> : <SignupFrom setShowModal={setShowModal} setCurrentUser={setCurrentUser}/>
                 }
             </div>
         </div>
@@ -24,7 +26,7 @@ const AuthModal = ({setShowModal}) => {
   )
 }
 
-function LoginFrom () {
+function LoginFrom ({setCurrentUser,setShowModal}) {
     const [formData, setFromData] = useState({
         email : "",
         password: ""
@@ -34,6 +36,7 @@ function LoginFrom () {
     }
     return (
         <>
+            <LoginWithGooleAccout setShowModal={setShowModal} setCurrentUser={setCurrentUser}>Login with Google</LoginWithGooleAccout>
             <h2>Login form</h2>
             <form onSubmit={handleLogin}>
             <label htmlFor="email">email</label>
@@ -45,7 +48,7 @@ function LoginFrom () {
         </>
     )
 }
-function SignupFrom () {
+function SignupFrom ({setCurrentUser, setShowModal}) {
     const [formData, setFromData] = useState({
         email : "",
         password: ""
@@ -54,7 +57,8 @@ function SignupFrom () {
         return null;
     }
     return (
-        <>
+        <>  
+            <LoginWithGooleAccout setShowModal={setShowModal} setCurrentUser={setCurrentUser}>Signup with Google</LoginWithGooleAccout>
             <h2>Signup form</h2>
             <form onSubmit={handleSingup}>
                 <label htmlFor="email">email</label>
@@ -65,6 +69,28 @@ function SignupFrom () {
             </form>
         </>
     )
+}
+
+function LoginWithGooleAccout ({children,setCurrentUser,setShowModal}) {
+    const handleLogin = async () => {
+        const user = await loginWithGoogle();
+        console.log(user);
+        if(!user.error){
+            const {
+                displayName,
+                email,
+                photoURL
+            } = user.user;
+            setShowModal(false)
+            setCurrentUser({
+                displayName,
+                email,
+                photoURL
+            })
+
+        }
+    }
+    return <button onClick={handleLogin} className="loginWithGoogle"><FcGoogle className="googleIcon"/> {children}</button>
 }
 
 export default AuthModal

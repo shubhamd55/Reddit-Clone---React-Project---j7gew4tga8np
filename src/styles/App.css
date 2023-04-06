@@ -116,3 +116,71 @@ body{
     height: max-content;
     background-color: rgba(255, 166, 0, 0.683);
 }
+.loginWithGoogle{
+    width: 80%;
+    margin: 0px auto;
+    background-color: transparent;
+    border-radius: 8px;
+    padding: 5px 15px;
+    display: flex;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    font-size: 20px;
+    transition: .3s ease all;
+}
+.loginWithGoogle:hover{
+    scale: 1.02;
+    background-color: aliceblue;
+}
+.googleIcon{
+    font-size: 30px;
+}
+.profileDropdom{
+    display: flex;
+    gap: 10px;
+    border-radius: 8px;
+    padding: 5px;
+    align-items: center;
+    width: max-content;
+    border: 2px solid silver;
+    font-size: 24px;
+    cursor: pointer;
+}
+.profileDropdom p{
+    margin: 0px;
+}
+.profileDropdom img{
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    border: 2px solid skyblue;
+    object-fit: cover;
+}
+.dropDown{
+    padding: 0px;
+    margin: 0px;
+}
+.dropDown li{
+    list-style: none;
+    cursor: pointer;
+    position: relative;
+    padding: 5px;
+    text-align: center; 
+    font-size: 20px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    /* justify-content: center; */
+}
+.dropDown li ~ li::before{
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    margin: 0 auto;
+    right: 0px;
+    width: 70%;
+    border-top: 1px solid silver;
+}
