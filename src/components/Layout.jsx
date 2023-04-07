@@ -1,12 +1,15 @@
 import React, {useState,useEffect} from 'react'
 import Navbar from "./Navbar";
 import Post from "./Post";
-import NewPostModal from "./NewPostModal"
+import NewPostModal from "./NewPostModal";
 import {onAuthChange} from "./Auth.js";
+import { v4 as uuidv4 } from 'uuid';
+
 const Layout = () => {
-    const [posts,setPosts] = useState(null);
+    const [posts,setPosts] = useState([]);
     const [currentUser, setCurrentUser] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [showPostModal, setShowPostModal] = useState(false)
     /* 
         [
             {
@@ -35,12 +38,12 @@ const Layout = () => {
   },[])
   return (
     <>
-        <Navbar {...{currentUser, setCurrentUser,setPosts,showModal, setShowModal}}/>
+        <Navbar {...{currentUser, setCurrentUser,setPosts,showModal, setShowModal,showPostModal, setShowPostModal}}/>
         <div className="posts-container">
         {
             posts && (
                 posts.map(post => {
-                    return <div> this is a post</div>
+                    return <Post post={post} key={uuidv4()} />
                 })
             )
         }

@@ -26,7 +26,7 @@ export const loginWithEmail = async (email,password) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode,errorMessage);
-        return {user: null, error: "failed to Login"}
+        return {user: null, error: "Wrong email or password"}
     }
 }
 

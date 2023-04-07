@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&display=swap');
 *,*::before,*::after{
     box-sizing: border-box;
 }
 body{
     margin:0px;
+    font-family: 'Anuphan', sans-serif;
 }
 /*********
 * Navbar *
@@ -183,4 +185,52 @@ body{
     right: 0px;
     width: 70%;
     border-top: 1px solid silver;
+}
+
+.NewPostModal{
+    position: fixed;
+    inset: 0;
+    width: 600px;
+    border-radius: 8px;
+    margin: auto auto;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    background-color: white;
+    padding: 10px;
+    height: max-content;
+    font-size: 18px;
+}
+.NewPostModal_close{
+    position: absolute;
+    font-size: 26px;
+    top: 5px;
+    right: 5px;
+    transition: .6s transform ease;
+    cursor: pointer;
+}
+.NewPostModal_close:hover{
+    transform: translateY(-2px);
+    transition: .3s transform ease;
+}
+.NewPostModal input{
+    display: block;
+    width: 90%;
+    margin: 10px auto;
+    height: 40px;
+    padding: 0px 10px;
+}
+.NewPostModal input[type="submit"]{
+    background-color: rgb(249, 202, 115);
+    cursor: pointer;
+}
+.NewPostModal h2{
+    display: block;
+    width: 90%;
+    margin: 10px auto;
+}
+#post_message{
+    display: block;
+    padding: 10px 10px;
+    width: 90%;
+    margin: 10px auto;
+    height: 120px;
 }

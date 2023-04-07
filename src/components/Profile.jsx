@@ -1,12 +1,10 @@
 import React, {useRef,useState} from 'react'
 import ProfileItems from "./profileItems";
 import {createPortal} from "react-dom";
-const Profile = ({currentUser, setCurrentUser}) => {
+import NewPostModal from './NewPostModal';
+const Profile = ({showPostModal,setPosts, setShowPostModal ,setCurrentUser, currentUser}) => {
   const [showProfileModal,setShowProfileModal] = useState(false);
-  const [position, setPosition] = useState({
-    right : "0",
-    bottom : "0"
-  })
+  const [position, setPosition] = useState(null)
   const {
       displayName,
       email,
@@ -15,9 +13,9 @@ const Profile = ({currentUser, setCurrentUser}) => {
   const profileRef = useRef(null);
   const showModal = () => {
     const position = profileRef.current.getBoundingClientRect();
-    const {x : right,bottom} = position;
-    console.log(right,bottom);
-    setPosition({right,bottom})
+    // const {x : right,bottom} = position;
+    // console.log(position);
+    setPosition(position)
     setShowProfileModal(state => !state);
     return null;
   }
@@ -27,7 +25,8 @@ const Profile = ({currentUser, setCurrentUser}) => {
         <img src={photoURL} alt="profile" referrerPolicy="no-referrer"/>
         <p>{displayName}</p>
       </div>
-      { showProfileModal && createPortal(<ProfileItems setCurrentUser={setCurrentUser} user={currentUser} position={position}/>, document.getElementById("portalRoot"))}
+      { showProfileModal && createPortal(<ProfileItems {...{showPostModal, setShowPostModal,setShowProfileModal,setCurrentUser, currentUser, position}}/>, document.getElementById("portalRoot"))}
+      {showPostModal && createPortal(<NewPostModal setPosts={setPosts} setShowPostModal={setShowPostModal}/>,document.getElementById("portalRoot")) }
     </>
   )
 }

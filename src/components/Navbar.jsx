@@ -3,12 +3,12 @@ import Profile from "./Profile";
 import {createPortal} from "react-dom";
 import logo from "../assets/reddit_logo.png"
 import AuthModal from "./AuthModal";
-const Navbar = ({currentUser, setCurrentUser,setPosts,showModal, setShowModal}) => {
+const Navbar = ({currentUser, setCurrentUser,setPosts,showModal, setShowModal,showPostModal, setShowPostModal}) => {
   return (
     <nav className="navbar">
         <img id="logo" src={logo} alt="logo"/>
         {
-            currentUser ? <Profile setCurrentUser={setCurrentUser} currentUser={currentUser}/> : <LoginSignUpBtn setShowModal={setShowModal}/>
+            currentUser ? <Profile {...{showPostModal,setPosts, setShowPostModal ,setCurrentUser, currentUser}}/> : <LoginSignUpBtn setShowModal={setShowModal}/>
         }
         {
             showModal && createPortal(<AuthModal setCurrentUser={setCurrentUser} setShowModal={setShowModal}/>, document.getElementById("portalRoot"))
