@@ -26,7 +26,7 @@ const Profile = ({showPostModal,setPosts, setShowPostModal ,setCurrentUser, curr
         <p>{displayName}</p>
       </div>
       { showProfileModal && createPortal(<ProfileItems {...{showPostModal, setShowPostModal,setShowProfileModal,setCurrentUser, currentUser, position}}/>, document.getElementById("portalRoot"))}
-      {showPostModal && createPortal(<NewPostModal setPosts={setPosts} setShowPostModal={setShowPostModal}/>,document.getElementById("portalRoot")) }
+      {showPostModal && createPortal(<NewPostModal currentUser={currentUser} setPosts={setPosts} setShowPostModal={setShowPostModal}/>,document.getElementById("portalRoot")) }
     </>
   )
 }

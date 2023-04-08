@@ -4,7 +4,7 @@ import Post from "./Post";
 import NewPostModal from "./NewPostModal";
 import {onAuthChange} from "./Auth.js";
 import { v4 as uuidv4 } from 'uuid';
-
+import {getPostsFromDb} from "../database";
 const Layout = () => {
     const [posts,setPosts] = useState([]);
     const [currentUser, setCurrentUser] = useState(null);
@@ -26,14 +26,19 @@ const Layout = () => {
         const {
             displayName,
             email,
-            photoURL
+            photoURL,
+            uid,
         } = user;
         setCurrentUser({
             displayName,
             email,
-            photoURL
+            photoURL,
+            uid
         })
         return null;
+    })
+    getPostsFromDb().then(result => {
+        setPosts(result);
     })
   },[])
   return (
@@ -43,7 +48,7 @@ const Layout = () => {
         {
             posts && (
                 posts.map(post => {
-                    return <Post post={post} key={uuidv4()} />
+                    return <Post posts={posts} setPosts={setPosts} post={post} key={uuidv4()} />
                 })
             )
         }

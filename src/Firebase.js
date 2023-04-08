@@ -1,6 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+// import { getDatabase } from "firebase/database";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -13,7 +15,8 @@ const firebaseConfig = {
   storageBucket: "reddit-clone-e6c41.appspot.com",
   messagingSenderId: "218698779393",
   appId: "1:218698779393:web:c2bd3747a8ac7c9b2da900",
-  measurementId: "G-705MVJCV0N"
+  measurementId: "G-705MVJCV0N",
+  // databaseURL: "https://reddit-clone-e6c41.firebaseio.com"
 };
 
 // Initialize Firebase

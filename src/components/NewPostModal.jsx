@@ -1,8 +1,8 @@
 import React, {useRef} from 'react'
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { v4 as uuidv4 } from 'uuid';
-
-const NewPostModal = ({setShowPostModal,setPosts}) => {
+import {creatPostInDb} from "../database";
+const NewPostModal = ({setShowPostModal,setPosts,currentUser}) => {
   const titleInpRef = useRef(null);
   const messageInpRef = useRef(null);
   const handleClick = (e) => {
@@ -11,15 +11,17 @@ const NewPostModal = ({setShowPostModal,setPosts}) => {
   }
   const handleSubmit = (e) => {
     e.preventDefault();
+    const newPost = {
+      id : uuidv4(),
+      upvote : 0,
+      downvote : 0,
+      title : titleInpRef.current.value,
+      message : messageInpRef.current.value
+    }
+    creatPostInDb(newPost,currentUser)
     setPosts(prevPost => ([
       ...prevPost,
-      {
-        id : uuidv4(),
-        upvote : 0,
-        downvote : 0,
-        title : titleInpRef.current.value,
-        message : messageInpRef.current.value
-      }
+      newPost
     ]))
     setShowPostModal(false)
   }
