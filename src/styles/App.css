@@ -300,3 +300,27 @@ body{
     font-size: 16px;
     font-weight: 400;
 }
+.user_details{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    /* background-color: red; */
+}
+.user_details img {
+    height: 30px;
+    width: 30px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid orange;
+}
+.user_details p {
+    font-size: 12px;
+    color: gray;
+    margin-left: auto
+}
+.user_details p:nth-of-type(1) {
+    font-size: 14px;
+    font-weight: bolder;
+    color: black;
+    margin-left: 0px;
+}

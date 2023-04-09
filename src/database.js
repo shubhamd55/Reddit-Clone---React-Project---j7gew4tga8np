@@ -1,36 +1,38 @@
 import {app} from "./Firebase";
 import { getFirestore } from "firebase/firestore";
+
 // const database = getDatabase(app);
 const db = getFirestore(app);
 
-import { collection, addDoc,setDoc,doc,getDocs } from "firebase/firestore"; 
+import { collection, addDoc,setDoc,doc,getDocs, updateDoc } from "firebase/firestore"; 
 
 
 // write data to firestore collection
 
-export const creatPostInDb = async (post, user) => {
+export const creatPostInDb = async (post) => {
     const {
-        id : post_id,
+        post_id,
+        upvote,
+        downvote,
         title,
         message,
-        upvote,
-        downvote
-    } = post;
-    const {
-        uid : user_id,
+        user_id,
         displayName,
-        photoURL
-    } = user;
+        photoURL,
+        timeStamp
+    } = post;
     try {
       const postsRef = collection(db, "posts");
       const docRef = await setDoc(doc(postsRef, post_id), {
-        title,
-        message,
+        post_id,
         upvote,
         downvote,
+        title,
+        message,
         user_id,
+        displayName,
         photoURL,
-        displayName
+        timeStamp
       });
       console.log("Document written with ID: ", docRef);
     } catch (e) {
@@ -48,6 +50,26 @@ export const getPostsFromDb = async () => {
         returnData.push(doc.data());
     });
     return new Promise((resolve,reject) => resolve(returnData));
+}
+
+
+export const updatePost = async (post,action) => {
+  try {
+    const postRef = doc(db, "posts", post.post_id);
+    if(action === "upvote"){
+      let result = await updateDoc(postRef, {
+        upvote: post.upvote + 1
+      });
+      console.log(result);
+    }else{
+      let result = await updateDoc(postRef, {
+        downvote: post.downvote + 1
+      });
+      console.log(result);
+    }
+  }catch(error){
+    console.log(error);
+  }
 }
 
 

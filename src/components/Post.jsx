@@ -1,19 +1,24 @@
 import React,{useRef, useState} from 'react'
 import { v4 as uuidv4 } from 'uuid';
-
+import {updatePost} from "../database";
 import {ImArrowDown, ImArrowUp} from "react-icons/im"
 import {IoMdArrowDropdown, IoMdArrowDropup} from "react-icons/io"
 const Post = ({post,setPosts,posts}) => {
   const {
-    id,
+    post_id,
     upvote,
     downvote,
     title,
-    message 
+    message,
+    user_id,
+    displayName,
+    photoURL,
+    timeStamp 
   } = post;
   const downVote = () => {
     const newPostList = posts.map(post => {
-      if(post.id === id){
+      if(post.post_id === post_id){
+        updatePost(post, "downvote");
         post.downvote = +post.downvote + 1;
       }
       return post;
@@ -22,7 +27,8 @@ const Post = ({post,setPosts,posts}) => {
   }
   const upVote = () => {
     const newPostList = posts.map(post => {
-      if(post.id === id){
+      if(post.post_id === post_id){
+        updatePost(post, "upvote");
         post.upvote = +post.upvote + 1;
       }
       return post
@@ -44,6 +50,11 @@ const Post = ({post,setPosts,posts}) => {
         </div>
       </div>
       <div className="grp_right">
+        <div className="user_details">
+          <img src={photoURL} alt="user" />
+          <p>{displayName}</p>
+          <p>{timeStamp}</p>
+        </div>
         <p className="post_title">{title}</p>
         <p className="post_body">{message}</p>
       </div>

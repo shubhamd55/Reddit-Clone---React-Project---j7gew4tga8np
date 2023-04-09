@@ -5,20 +5,46 @@ import {creatPostInDb} from "../database";
 const NewPostModal = ({setShowPostModal,setPosts,currentUser}) => {
   const titleInpRef = useRef(null);
   const messageInpRef = useRef(null);
+  const imageInpRef = useRef(null);
   const handleClick = (e) => {
     e.stopPropagation();
     setShowPostModal(false)
   }
   const handleSubmit = (e) => {
     e.preventDefault();
+    let image = imageInpRef.current.files[0];
+    // if(image){
+
+    // }
+    const {
+      uid : user_id,
+      displayName,
+      photoURL
+    } = currentUser
+    let dateString = new Date()
     const newPost = {
-      id : uuidv4(),
+      post_id : uuidv4(),
       upvote : 0,
       downvote : 0,
       title : titleInpRef.current.value,
-      message : messageInpRef.current.value
+      message : messageInpRef.current.value,
+      user_id : user_id,
+      displayName : displayName,
+      photoURL : photoURL,
+      timeStamp : dateString.toDateString(),
     }
-    creatPostInDb(newPost,currentUser)
+    // post_images : [image]
+    console.log("look here",newPost)
+    /* 
+      title,
+        message,
+        upvote,
+        downvote,
+        user_id,
+        photoURL,
+        displayName
+    */
+    creatPostInDb(newPost)
     setPosts(prevPost => ([
       ...prevPost,
       newPost
@@ -31,6 +57,9 @@ const NewPostModal = ({setShowPostModal,setPosts,currentUser}) => {
       <h2>Publish a post</h2>
       <input ref={titleInpRef} placeholder="Title" type="text" name="title" id="post_title" />
       <textarea ref={messageInpRef} placeholder="Post message" name="message" id="post_message" />
+      <input ref={imageInpRef} type="file"
+       id="post_image" name="post_image"
+       accept="image/png, image/jpeg"/>
       <input type="submit" value="post" />
     </form>
   )
