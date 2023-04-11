@@ -19,21 +19,12 @@ export const creatPostInDb = async (post) => {
         user_id,
         displayName,
         photoURL,
+        post_image,
         timeStamp
     } = post;
     try {
       const postsRef = collection(db, "posts");
-      const docRef = await setDoc(doc(postsRef, post_id), {
-        post_id,
-        upvote,
-        downvote,
-        title,
-        message,
-        user_id,
-        displayName,
-        photoURL,
-        timeStamp
-      });
+      const docRef = await setDoc(doc(postsRef, post_id), post);
       console.log("Document written with ID: ", docRef);
     } catch (e) {
       console.error("Error adding document: ", e);

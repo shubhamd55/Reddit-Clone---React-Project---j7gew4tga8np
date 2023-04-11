@@ -1,8 +1,11 @@
-import React, {useRef} from 'react'
+import React, {useRef,useState} from 'react'
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { v4 as uuidv4 } from 'uuid';
 import {creatPostInDb} from "../database";
+import {UploaImage} from "../storage";
 const NewPostModal = ({setShowPostModal,setPosts,currentUser}) => {
+  const [posting,setPosing] = useState(false);
+  // const [image, setImage] = useState(null)
   const titleInpRef = useRef(null);
   const messageInpRef = useRef(null);
   const imageInpRef = useRef(null);
@@ -10,12 +13,20 @@ const NewPostModal = ({setShowPostModal,setPosts,currentUser}) => {
     e.stopPropagation();
     setShowPostModal(false)
   }
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let image = imageInpRef.current.files[0];
-    // if(image){
-
-    // }
+    let imageUrl = ""
+    if(image){
+      let url = await UploaImage(image)
+      console.log("there returned url is", url)
+      imageUrl = url;
+      // setImage(url)
+    }else{
+      imageUrl=null;
+    }
+    console.log(imageUrl)
+    
     const {
       uid : user_id,
       displayName,
@@ -31,19 +42,12 @@ const NewPostModal = ({setShowPostModal,setPosts,currentUser}) => {
       user_id : user_id,
       displayName : displayName,
       photoURL : photoURL,
+      post_image : imageUrl,
       timeStamp : dateString.toDateString(),
     }
-    // post_images : [image]
+    
     console.log("look here",newPost)
-    /* 
-      title,
-        message,
-        upvote,
-        downvote,
-        user_id,
-        photoURL,
-        displayName
-    */
+    
     creatPostInDb(newPost)
     setPosts(prevPost => ([
       ...prevPost,

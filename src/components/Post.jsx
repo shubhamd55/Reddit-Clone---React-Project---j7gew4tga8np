@@ -13,6 +13,7 @@ const Post = ({post,setPosts,posts}) => {
     user_id,
     displayName,
     photoURL,
+    post_image,
     timeStamp 
   } = post;
   const downVote = () => {
@@ -56,6 +57,11 @@ const Post = ({post,setPosts,posts}) => {
           <p>{timeStamp}</p>
         </div>
         <p className="post_title">{title}</p>
+        {
+          post_image && (
+            <img src={post_image} alt="post_image" referrerPolicy="no-referrer" className="post_image" />
+          )
+        }
         <p className="post_body">{message}</p>
       </div>
     </div>
