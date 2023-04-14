@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import {updatePost} from "../database";
 import {ImArrowDown, ImArrowUp} from "react-icons/im"
 import {IoMdArrowDropdown, IoMdArrowDropup} from "react-icons/io"
-const Post = ({post,setPosts,posts,currentUser}) => {
+const Post = ({post,setPosts,posts,currentUser,setShowModal}) => {
   const {
     post_id,
     upvote,
@@ -19,32 +19,34 @@ const Post = ({post,setPosts,posts,currentUser}) => {
   const downVote = () => {
     if(!currentUser){
       console.log("loging to react to post")
-      alert("loging to react to post")
+      // alert("loging to react to post")
+      setShowModal(true);
       return null;
     }
-    const newPostList = posts.map(post => {
-      if(post.post_id === post_id){
-        updatePost(post, "downvote",currentUser);
-        post.downvote = +post.downvote + 1;
+    for(let i = 0;i<posts.length;i++){
+      if(posts[i].post_id === post_id){
+        updatePost(post, "downvote",currentUser).then((newPostList) => {
+          setPosts(newPostList)
+        })
+        break;
       }
-      return post;
-    });
-    setPosts(prevPosts => (newPostList))
+    }
   }
   const upVote = () => {
     if(!currentUser){
       console.log("loging to react to post")
-      alert("loging to react to post")
+      // alert("loging to react to post")
+      setShowModal(true);
       return null;
     }
-    const newPostList = posts.map(post => {
-      if(post.post_id === post_id){
-        updatePost(post, "upvote",currentUser);
-        post.upvote = +post.upvote + 1;
+    for(let i = 0;i<posts.length;i++){
+      if(posts[i].post_id === post_id){
+        updatePost(post, "upvote",currentUser).then((newPostList) => {
+          setPosts(newPostList)
+        })
+        break;
       }
-      return post
-    });   
-    setPosts(prevPosts => newPostList)
+    }   
   }
   return (
     <div className="indi_post">
