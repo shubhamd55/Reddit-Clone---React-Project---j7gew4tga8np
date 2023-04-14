@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import {updatePost} from "../database";
 import {ImArrowDown, ImArrowUp} from "react-icons/im"
 import {IoMdArrowDropdown, IoMdArrowDropup} from "react-icons/io"
-const Post = ({post,setPosts,posts}) => {
+const Post = ({post,setPosts,posts,currentUser}) => {
   const {
     post_id,
     upvote,
@@ -17,9 +17,14 @@ const Post = ({post,setPosts,posts}) => {
     timeStamp 
   } = post;
   const downVote = () => {
+    if(!currentUser){
+      console.log("loging to react to post")
+      alert("loging to react to post")
+      return null;
+    }
     const newPostList = posts.map(post => {
       if(post.post_id === post_id){
-        updatePost(post, "downvote");
+        updatePost(post, "downvote",currentUser);
         post.downvote = +post.downvote + 1;
       }
       return post;
@@ -27,9 +32,14 @@ const Post = ({post,setPosts,posts}) => {
     setPosts(prevPosts => (newPostList))
   }
   const upVote = () => {
+    if(!currentUser){
+      console.log("loging to react to post")
+      alert("loging to react to post")
+      return null;
+    }
     const newPostList = posts.map(post => {
       if(post.post_id === post_id){
-        updatePost(post, "upvote");
+        updatePost(post, "upvote",currentUser);
         post.upvote = +post.upvote + 1;
       }
       return post

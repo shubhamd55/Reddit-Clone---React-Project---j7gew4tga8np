@@ -2,6 +2,7 @@ import {app} from "../Firebase";
 import { getAuth,signOut ,GoogleAuthProvider,signInWithPopup , createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged  } from "firebase/auth";
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
+import {addUserInCollection} from "../database"
 // provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
 export const registerWithEmail = async (email,password) => {
@@ -51,6 +52,8 @@ export const loginWithGoogle = async () => {
     const credential = GoogleAuthProvider.credentialFromResult(result);
     const token = credential.accessToken;
     const user = result.user;
+    // console.log("look here", user);
+    addUserInCollection(user.uid);
     return {user : user, error: null};
 }catch(error){
     const errorCode = error.code;
@@ -60,6 +63,8 @@ export const loginWithGoogle = async () => {
     return {user : null, error: "login with google failed"};
   }
 } 
+
+
 
 export const logoutUser = async () => {
     try{

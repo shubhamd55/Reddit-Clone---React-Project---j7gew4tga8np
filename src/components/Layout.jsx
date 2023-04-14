@@ -48,7 +48,7 @@ const Layout = () => {
         {
             posts && (
                 posts.map(post => {
-                    return <Post posts={posts} setPosts={setPosts} post={post} key={uuidv4()} />
+                    return <Post currentUser={currentUser} posts={posts} setPosts={setPosts} post={post} key={uuidv4()} />
                 })
             )
         }

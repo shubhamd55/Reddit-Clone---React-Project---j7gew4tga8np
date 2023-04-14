@@ -79,13 +79,15 @@ function LoginWithGooleAccout ({children,setCurrentUser,setShowModal}) {
             const {
                 displayName,
                 email,
-                photoURL
+                photoURL,
+                uid
             } = user.user;
             setShowModal(false)
             setCurrentUser({
                 displayName,
                 email,
-                photoURL
+                photoURL,
+                uid
             })
 
         }

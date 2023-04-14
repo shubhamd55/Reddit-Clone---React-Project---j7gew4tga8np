@@ -4,7 +4,7 @@ import { getFirestore } from "firebase/firestore";
 // const database = getDatabase(app);
 const db = getFirestore(app);
 
-import { collection, addDoc,setDoc,doc,getDocs, updateDoc } from "firebase/firestore"; 
+import { collection, addDoc,setDoc,doc,getDocs, updateDoc,getDoc } from "firebase/firestore"; 
 
 
 // write data to firestore collection
@@ -44,22 +44,107 @@ export const getPostsFromDb = async () => {
 }
 
 
-export const updatePost = async (post,action) => {
+export const updatePost = async (post,action,user) => {
+  // console.log(user);
+  let user_id = user.uid;
   try {
     const postRef = doc(db, "posts", post.post_id);
-    if(action === "upvote"){
-      let result = await updateDoc(postRef, {
-        upvote: post.upvote + 1
-      });
-      console.log(result);
-    }else{
-      let result = await updateDoc(postRef, {
-        downvote: post.downvote + 1
-      });
-      console.log(result);
+    const userRef = doc(db,"users", user_id);
+    console.log(user_id);
+    const userSnap = await getDoc(userRef);
+    if (userSnap.exists()) {
+      // console.log("Document data:", userSnap.data());
+      const {posts : userPostData} = userSnap.data();
+      console.log(userPostData, "=========look here=========")
+      const [FoundPost] = userPostData.filter(userPost => {
+        console.log(userPost.postId, "<===>", post.post_id)
+        if(userPost.postId === post.post_id){
+          return true;
+        }
+      })
+      const restOfPosts = userPostData.filter(userPost => {
+        console.log(userPost.postId, "<===>", post.post_id)
+        if(userPost.postId === post.post_id){
+          return false;
+        }else{
+          return true
+        }
+      })
+      console.log(FoundPost)
+      if(!FoundPost){
+        let result = await updateDoc(userRef, {
+          posts : [
+            ...userPostData,
+            {
+              postId: post.post_id,
+              upvote : (action === "upvote"),
+              downvote : (action === "downvote")
+            }
+          ]
+        });
+      }else{
+        if(action === "upvote"){
+          if(FoundPost.upvote === true){
+            return null;
+          }else{
+            
+          }
+        }else{
+
+        }
+        console.log("the post already exists",FoundPost)
+      //   let result = await updateDoc(userRef, {
+      //   posts : [
+      //     {
+      //       postId: post.post_id,
+      //       upvote : (action === "upvote"),
+      //       downvote : (action === "downvote")
+      //     }
+      //   ]
+      // });
+      }
+    } else {
+      // docSnap.data() will be undefined in this case
+      console.log("No such document!");
+      // let result = await updateDoc(userRef, {
+      //   posts : [
+      //     {
+      //       postId: post.post_id,
+      //       upvote : (action === "upvote"),
+      //       downvote : (action === "downvote")
+      //     }
+      //   ]
+      // });
     }
+    
+
+    // if(action === "upvote"){
+    //   let result = await updateDoc(postRef, {
+    //     upvote: post.upvote + 1
+    //   });
+    //   console.log(result);
+    // }else{
+    //   let result = await updateDoc(postRef, {
+    //     downvote: post.downvote + 1
+    //   });
+    //   console.log(result);
+    // }
   }catch(error){
     console.log(error);
+  }
+}
+
+export async function addUserInCollection(id){
+  console.log(id, "look here");
+  try {
+    const usersRef = collection(db, "users");
+    const docRef = await setDoc(doc(usersRef, id), {
+      posts : [
+      ]
+    });
+    console.log("Document written with ID: ", docRef);
+  } catch (e) {
+    console.error("Error adding document: ", e);
   }
 }
 
