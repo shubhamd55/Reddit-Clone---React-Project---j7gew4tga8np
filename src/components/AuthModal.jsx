@@ -9,92 +9,17 @@ const AuthModal = ({setShowModal,setCurrentUser}) => {
         <div className="authCard">
             <AiOutlineCloseCircle className="authModalCloseIcon" onClick={() => setShowModal(false)}/>
             <div className="form-container">
-                <div className="buttons">
-                    <span onClick={() => setShowLoginFrom(true)} className={showLoginFrom ? "active showLoginBtn": "showLoginBtn"}>
-                        Login
-                    </span>
-                    <span onClick={() => setShowLoginFrom(false)} className={!showLoginFrom ? "active showSingupBtn": "showSingupBtn"}>
-                        Signup
-                    </span>
-                </div>
-                {
-                    showLoginFrom ? <LoginFrom setShowModal={setShowModal} setCurrentUser={setCurrentUser}/> : <SignupFrom setShowModal={setShowModal} setCurrentUser={setCurrentUser}/>
-                }
+                <h3>Please Login to continue</h3>
+                <LoginWithGooleAccout setShowModal={setShowModal} setCurrentUser={setCurrentUser}>Login with Google</LoginWithGooleAccout>
             </div>
         </div>
     </div>
   )
 }
 
-function LoginFrom ({setCurrentUser,setShowModal}) {
-    const [formData, setFromData] = useState({
-        email : "",
-        password: ""
-    })
-    const handleLogin =() => {
-        return null;
-    }
-    return (
-        <>
-            <LoginWithGooleAccout setShowModal={setShowModal} setCurrentUser={setCurrentUser}>Login with Google</LoginWithGooleAccout>
-            <h2>Login form</h2>
-            <form onSubmit={handleLogin}>
-            <label htmlFor="email">email</label>
-                <input value={formData.email} onChange={(e) => setFromData(state => ({...state,email: e.target.value}))} id="email" type="email" name="email"/>
-                <label htmlFor="password">password</label>
-                <input value={formData.password} onChange={(e) => setFromData(state => ({...state,password: e.target.value}))} id="password" type="password" name="password"/>
-                <input type="submit" value="Login" />
-            </form>
-        </>
-    )
-}
-function SignupFrom ({setCurrentUser, setShowModal}) {
-    const [formData, setFromData] = useState({
-        email : "",
-        password: ""
-    })
-    const handleSingup = async (e) => {
-        e.preventDefault();
-        let result = await registerWithEmail(formData.email,formData.password)
-        console.log("look here auth",result);
-        return null;
-    }
-    const handeFormChange = (e) => {
-        e.persist();
-        console.log(e.target.value);
-        if(e.target.id === "email"){
-            setFromData(prevFormData => {
-                return {
-                    ...prevFormData,
-                    email : e.target.value
-                }
-            })
-        }else{
-            setFromData(prevFormData => {
-                return {
-                    ...prevFormData,
-                    password : e.target.value
-                }
-            })
-        }
 
-    }
-    return (
-        <>  
-            <LoginWithGooleAccout setShowModal={setShowModal} setCurrentUser={setCurrentUser}>Signup with Google</LoginWithGooleAccout>
-            <h2>Signup form</h2>
-            <form onSubmit={handleSingup}>
-                <label htmlFor="email">email</label>
-                <input value={formData.email} onChange={handeFormChange} id="email" type="email" name="email"/>
-                <label htmlFor="password">password</label>
-                <input value={formData.password} onChange={handeFormChange} id="password" type="password" name="password"/>
-                <input type="submit" value="Sign Up" />
-            </form>
-        </>
-    )
-}
 
-function LoginWithGooleAccout ({children,setCurrentUser,setShowModal}) {
+export function LoginWithGooleAccout ({children,setCurrentUser,setShowModal}) {
     const handleLogin = async () => {
         const user = await loginWithGoogle();
         console.log(user);

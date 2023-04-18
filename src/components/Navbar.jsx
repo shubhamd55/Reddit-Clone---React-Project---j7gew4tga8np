@@ -2,7 +2,7 @@ import React from 'react'
 import Profile from "./Profile";
 import {createPortal} from "react-dom";
 import logo from "../assets/reddit_logo.png"
-import AuthModal from "./AuthModal";
+import AuthModal,{LoginWithGooleAccout} from "./AuthModal";
 const Navbar = ({currentUser, setCurrentUser,setPosts,showModal, setShowModal,showPostModal, setShowPostModal}) => {
   return (
     <nav className="navbar">
@@ -18,10 +18,11 @@ const Navbar = ({currentUser, setCurrentUser,setPosts,showModal, setShowModal,sh
 }
 
 function LoginSignUpBtn ({setShowModal}){
-    const handleAuth = () => {
-        return setShowModal(true);
-    }
-    return <button className="loginSignupBtn" onClick={handleAuth}>Login/Signup</button>
+    // const handleAuth = () => {
+    //     return setShowModal(true);
+    // }
+    // return <button className="loginSignupBtn" onClick={handleAuth}>Login/Signup</button>
+    return <LoginWithGooleAccout>Login with Google</LoginWithGooleAccout>
 }
 
 export default Navbar;
