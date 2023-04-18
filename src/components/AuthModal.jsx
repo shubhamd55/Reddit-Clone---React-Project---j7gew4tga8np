@@ -1,7 +1,7 @@
 import React,{useState, useEffect} from 'react'
 import {AiOutlineCloseCircle} from 'react-icons/ai'
 import {FcGoogle} from 'react-icons/fc';
-import {loginWithGoogle} from "./Auth";
+import {loginWithGoogle,registerWithEmail,loginWithEmail} from "./Auth";
 const AuthModal = ({setShowModal,setCurrentUser}) => {
   const [showLoginFrom, setShowLoginFrom] = useState(true)
   return (
@@ -53,8 +53,31 @@ function SignupFrom ({setCurrentUser, setShowModal}) {
         email : "",
         password: ""
     })
-    const handleSingup =() => {
+    const handleSingup = async (e) => {
+        e.preventDefault();
+        let result = await registerWithEmail(formData.email,formData.password)
+        console.log("look here auth",result);
         return null;
+    }
+    const handeFormChange = (e) => {
+        e.persist();
+        console.log(e.target.value);
+        if(e.target.id === "email"){
+            setFromData(prevFormData => {
+                return {
+                    ...prevFormData,
+                    email : e.target.value
+                }
+            })
+        }else{
+            setFromData(prevFormData => {
+                return {
+                    ...prevFormData,
+                    password : e.target.value
+                }
+            })
+        }
+
     }
     return (
         <>  
@@ -62,9 +85,9 @@ function SignupFrom ({setCurrentUser, setShowModal}) {
             <h2>Signup form</h2>
             <form onSubmit={handleSingup}>
                 <label htmlFor="email">email</label>
-                <input value={formData.email} onChange={(e) => setFromData(state => ({...state,email: e.target.value}))} id="email" type="email" name="email"/>
+                <input value={formData.email} onChange={handeFormChange} id="email" type="email" name="email"/>
                 <label htmlFor="password">password</label>
-                <input value={formData.password} onChange={(e) => setFromData(state => ({...state,password: e.target.value}))} id="password" type="password" name="password"/>
+                <input value={formData.password} onChange={handeFormChange} id="password" type="password" name="password"/>
                 <input type="submit" value="Sign Up" />
             </form>
         </>

@@ -4,7 +4,7 @@ import Post from "./Post";
 import NewPostModal from "./NewPostModal";
 import {onAuthChange} from "./Auth.js";
 import { v4 as uuidv4 } from 'uuid';
-import {getPostsFromDb} from "../database";
+import {getPostsFromDb,sortPostArray} from "../database";
 const Layout = () => {
     const [posts,setPosts] = useState([]);
     const [currentUser, setCurrentUser] = useState(null);
@@ -38,7 +38,9 @@ const Layout = () => {
         return null;
     })
     getPostsFromDb().then(result => {
-        setPosts(result);
+        let sortedResult = sortPostArray(result)
+        console.log(sortedResult);
+        setPosts(sortedResult);
     })
   },[])
   return (

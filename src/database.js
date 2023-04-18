@@ -57,54 +57,81 @@ export const updatePost = async (post,action,user) => {
   // console.log(post.post_id,docSnap, docSnap.data())
   console.log(postData, "look here")
   try{
+    let [upvoteUser] = postData.userUpvoted.filter(user => {
+      if(user === userId) return true;
+      return false;
+    }) 
+    let restOfUpvoteUsers = postData.userUpvoted.filter(user => {
+      if(user !== userId) return true;
+      return false;
+    }) 
+    let [downvotedUser] = postData.userDownvoted.filter(user => {
+      if(user === userId) return true;
+      return false;
+    }) 
+    let restOfDownvotedUsers = postData.userDownvoted.filter(user => {
+      if(user !== userId) return true;
+      return false;
+    })
     if(action === "upvote"){
-      let [upvoteUser] = postData.userUpvoted.filter(user => {
-        if(user === userId) return true;
-        return false;
-      }) 
-      let restOfUsers = postData.userUpvoted.filter(user => {
-        if(user !== userId) return true;
-        return false;
-      }) 
       if(upvoteUser){
         let result = await updateDoc(docRef, {
           upvote: postData.upvote - 1,
-          userUpvoted: [ ...restOfUsers]
+          userUpvoted: [ ...restOfUpvoteUsers]
         });
-        return getPostsFromDb();
+        let posts = await getPostsFromDb()
+        return sortPostArray(posts);
       }else{
         let result = await updateDoc(docRef, {
           upvote: postData.upvote + 1,
           userUpvoted: [ ...postData.userUpvoted,userId]
         });
-        return getPostsFromDb();
+        /* we will remove that downvote here */
+        console.log("is the post downvoted", downvotedUser);
+        if(downvotedUser){
+          let result = await updateDoc(docRef, {
+            downvote: postData.downvote - 1,
+            userDownvoted: [ ...restOfDownvotedUsers]
+          });
+        }
+        let posts = await getPostsFromDb()
+        return sortPostArray(posts);
       }
-    }else{
-      let [downvotedUser] = postData.userDownvoted.filter(user => {
-        if(user === userId) return true;
-        return false;
-      }) 
-      let restOfUsers = postData.userDownvoted.filter(user => {
-        if(user !== userId) return true;
-        return false;
-      }) 
+    }else{ 
       if(downvotedUser){
         let result = await updateDoc(docRef, {
           downvote: postData.downvote - 1,
-          userDownvoted: [ ...restOfUsers]
+          userDownvoted: [ ...restOfDownvotedUsers]
         });
-        return getPostsFromDb();
+        let posts = await getPostsFromDb()
+        return sortPostArray(posts);
       }else{
         let result = await updateDoc(docRef, {
           downvote: postData.downvote + 1,
           userDownvoted: [ ...postData.userUpvoted,userId]
         });
-        return getPostsFromDb();
+        /* we will remove that upvote */
+        if(upvoteUser){
+          let result = await updateDoc(docRef, {
+            upvote: postData.upvote - 1,
+            userUpvoted: [ ...restOfUpvoteUsers]
+          });
+        }
+        console.log("is the post downvoted", upvoteUser);
+        let posts = await getPostsFromDb()
+        return sortPostArray(posts);
       }
     }
   }catch(error){
     console.log(error);
   }
+}
+
+export function sortPostArray(arrOfPosts) {
+  console.log()
+  return arrOfPosts.sort((elementA,elementB) => {
+    return new Date(elementB.timeStamp) - new Date(elementA.timeStamp)
+  })
 }
 
 

@@ -1,7 +1,7 @@
 import React, {useRef,useState} from 'react'
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { v4 as uuidv4 } from 'uuid';
-import {creatPostInDb} from "../database";
+import {creatPostInDb,sortPostArray} from "../database";
 import {UploaImage} from "../storage";
 const NewPostModal = ({setShowPostModal,setPosts,currentUser}) => {
   const [posting,setPosing] = useState(false);
@@ -43,16 +43,19 @@ const NewPostModal = ({setShowPostModal,setPosts,currentUser}) => {
       displayName : displayName,
       photoURL : photoURL,
       post_image : imageUrl,
-      timeStamp : dateString.toDateString(),
+      timeStamp : dateString.toString(),
     }
     
     console.log("look here",newPost)
     
     creatPostInDb(newPost)
-    setPosts(prevPost => ([
-      ...prevPost,
-      newPost
-    ]))
+    setPosts(prevPost => {
+      return sortPostArray([
+       ...prevPost,
+       newPost
+     ])
+    }
+    )
     setShowPostModal(false)
   }
   return (

@@ -66,7 +66,7 @@ const Post = ({post,setPosts,posts,currentUser,setShowModal}) => {
         <div className="user_details">
           <img src={photoURL} alt="user" />
           <p>{displayName}</p>
-          <p>{timeStamp}</p>
+          <p>{new Date(timeStamp).toDateString()}</p>
         </div>
         <p className="post_title">{title}</p>
         {
